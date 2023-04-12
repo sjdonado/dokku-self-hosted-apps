@@ -23,6 +23,5 @@ brew install --cask openvpn-connect
 
 Setup
 ```bash
-dokku config:set squid-proxy-server DOKKU_PROXY_PORT_MAP="http:80:3128 https:443:3128"
 dokku config:set squid-proxy-server TZ=UTC
 ```
