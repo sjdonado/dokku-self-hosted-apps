@@ -25,7 +25,7 @@ Install MacOS client
 brew install --cask openvpn-connect
 ```
 
-## Proxy server
+## NGINX transparent proxy
 
 ### Setup
 ```bash
