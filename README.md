@@ -19,9 +19,20 @@ Install MacOS client
 brew install --cask openvpn-connect
 ```
 
-## Squid proxy server
+## Proxy server
 
 Setup
 ```bash
-dokku config:set squid-proxy-server TZ=UTC
+dokku proxy:disable proxy-server
+dokku docker-options:add proxy-server deploy "-p 3129:3128"
+```
+
+Download cert
+```bash
+dokku run proxy-server download-cert
+```
+
+Test
+```bash
+curl https://github.com/ -sv -o/dev/null -x https://localhost:3128 --proxy-insecure
 ```

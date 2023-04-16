@@ -4,6 +4,6 @@
 git remote add dokku-openvpn dokku@sjdonado.de:openvpn
 git subtree push --prefix openvpn dokku-openvpn master
 
-# squid
-git remote add dokku-squid dokku@sjdonado.de:squid-proxy-server
-git subtree push --prefix squid-proxy-server dokku-squid master
+# Proxy server 
+git remote add dokku-proxy-server dokku@sjdonado.de:proxy-server
+git subtree push --prefix proxy-server dokku-proxy-server master
