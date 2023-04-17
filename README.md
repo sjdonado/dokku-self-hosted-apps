@@ -50,10 +50,22 @@ dokku config:set bitwarden \
   SMTP_PASSWORD= \
 ```
 
+## Uptime Kuma
+
+### Setup
+```bash
+dokku letsencrypt:enable uptime-kuma
+
+dokku storage:ensure-directory uptime-kuma
+dokku storage:mount uptime-kuma /var/lib/dokku/data/storage/uptime-kuma:/app/data
+
+dokku config:set uptime-kuma UPTIME_KUMA_PORT=5000
+```
+
 ### Deploy
 ```bash
-git remote add dokku-bitwarden dokku@sjdonado.de:bitwarden
-git subtree push --prefix bitwarden dokku-bitwarden master
+git remote add dokku-uptime-kuma dokku@sjdonado.de:uptime-kuma
+git subtree push --prefix uptime-kuma dokku-uptime-kuma master
 ```
 
 ## Lesspass
