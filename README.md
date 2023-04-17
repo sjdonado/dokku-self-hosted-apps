@@ -3,7 +3,7 @@
 ### Setup
 ```bash
 dokku proxy:disable openvpn
-dokku config:set openvpn HOST_CONF_PORT=8080
+dokku config:set openvpn HOST_ADDR=35.127.0.0 HOST_CONF_PORT=8080
 dokku docker-options:add openvpn deploy "--cap-add=NET_ADMIN"
 dokku docker-options:add openvpn deploy "-p 1194:1194/udp -p 8080:8080/tcp"
 ```
@@ -11,7 +11,7 @@ dokku docker-options:add openvpn deploy "-p 1194:1194/udp -p 8080:8080/tcp"
 ### Generate new client config
 ```bash
 dokku run openvpn ./genclient
-# Config server started, download your client.ovpn config at http://...
+# Config server started, download your client.ovpn config at http://35.127.0.0:8080 ...
 ```
 
 ### Deploy
@@ -47,7 +47,13 @@ dokku config:set bitwarden \
   SMTP_PORT=587 \
   SMTP_SECURITY=starttls \
   SMTP_USERNAME=apikey \
-  SMTP_PASSWORD= \
+  SMTP_PASSWORD=
+```
+
+### Deploy
+```bash
+git remote add dokku-bitwarden dokku@sjdonado.de:bitwarden
+git subtree push --prefix bitwarden dokku-bitwarden master
 ```
 
 ## Uptime Kuma
