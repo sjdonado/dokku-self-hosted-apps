@@ -74,6 +74,24 @@ git remote add dokku-uptime-kuma dokku@sjdonado.de:uptime-kuma
 git subtree push --prefix uptime-kuma dokku-uptime-kuma master
 ```
 
+## Actual
+
+### Setup
+```bash
+dokku letsencrypt:enable actual
+
+dokku storage:ensure-directory actual
+dokku storage:mount uptime-kuma /var/lib/dokku/data/storage/actual:/data
+
+dokku config:set actual DOKKU_PROXY_PORT_MAP="http:80:5006 https:443:5006"
+```
+
+### Deploy
+```bash
+git remote add dokku-actual dokku@sjdonado.de:actual
+git subtree push --prefix actual dokku-actual master
+```
+
 ## Lesspass
 
 ### Local
