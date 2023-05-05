@@ -81,7 +81,7 @@ git subtree push --prefix uptime-kuma dokku-uptime-kuma master
 dokku letsencrypt:enable actual
 
 dokku storage:ensure-directory actual
-dokku storage:mount uptime-kuma /var/lib/dokku/data/storage/actual:/data
+dokku storage:mount actual /var/lib/dokku/data/storage/actual:/data
 
 dokku config:set actual DOKKU_PROXY_PORT_MAP="http:80:5006 https:443:5006"
 ```
