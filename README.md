@@ -92,6 +92,36 @@ git remote add dokku-actual dokku@sjdonado.de:actual
 git subtree push --prefix actual dokku-actual master
 ```
 
+## Jellyfin
+
+### Setup
+```bash
+dokku letsencrypt:enable jellyfin
+
+dokku storage:ensure-directory jellyfin-config
+dokku storage:mount jellyfin /var/lib/dokku/data/storage/jellyfin-config:/config
+
+dokku storage:ensure-directory jellyfin-cache
+dokku storage:mount jellyfin /var/lib/dokku/data/storage/jellyfin-cache:/cache
+
+dokku storage:ensure-directory jellyfin-media
+dokku storage:mount jellyfin /var/lib/dokku/data/storage/jellyfin-media:/media
+sudo chmod a+w /var/lib/dokku/data/storage/jellyfin-media
+
+dokku config:set jellyfin DOKKU_PROXY_PORT_MAP="http:80:8096 https:443:8096"
+```
+
+### Deploy
+```bash
+git remote add dokku-jellyfin dokku@sjdonado.de:jellyfin
+git subtree push --prefix jellyfin dokku-jellyfin master
+```
+
+### Upload media
+```bash
+rsync -avz --progress -e ssh "/path/on/local/computer" sjdonado@sjdonado.de:/var/lib/dokku/data/storage/jellyfin-media
+```
+
 ## Lesspass
 
 ### Local
