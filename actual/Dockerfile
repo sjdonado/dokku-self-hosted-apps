@@ -1,3 +1,3 @@
-FROM actualbudget/actual-server:23.6.0-alpine
+FROM actualbudget/actual-server:23.7.1-alpine
 
 EXPOSE 5006
