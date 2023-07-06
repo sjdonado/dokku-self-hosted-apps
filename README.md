@@ -91,6 +91,7 @@ dokku config:set actual DOKKU_PROXY_PORT_MAP="http:80:5006 https:443:5006"
 git remote add dokku-actual dokku@sjdonado.de:actual
 git subtree push --prefix actual dokku-actual master
 ```
+Force udpate: `git subtree split --prefix actual -b split-actual && git push dokku-actual split-actual:master --force && git branch -D split-actual`
 
 ## Jellyfin
 
