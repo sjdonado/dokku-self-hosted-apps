@@ -1,3 +1,23 @@
+## Chisel server
+
+### Setup
+```bash
+dokku apps:create chisel
+dokku domains:set chisel tunnel.sjdonado.de
+dokku letsencrypt:enable chisel
+
+dokku config:set chisel CHISEL_AUTH=user:pass
+
+dokku ports:add chisel http:80:8080
+dokku ports:add chisel https:443:8080
+```
+
+### Deploy
+```bash
+git remote add dokku-chisel dokku@sjdonado.de:chisel
+git subtree push --prefix chisel dokku-chisel master
+```
+
 ## OpenVPN server
 
 ### Setup
