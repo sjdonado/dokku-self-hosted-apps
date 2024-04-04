@@ -1,21 +1,26 @@
-## Chisel server
+## Dozzle server
 
 ### Setup
 ```bash
-dokku apps:create chisel
-dokku domains:set chisel tunnel.sjdonado.de
-dokku letsencrypt:enable chisel
+dokku apps:create dozzle
 
-dokku config:set chisel CHISEL_AUTH=user:pass
+dokku storage:ensure-directory dozzle-data
+dokku storage:mount dozzle /var/lib/dokku/data/storage/dozzle-data:/data
 
-dokku ports:add chisel http:80:8080
-dokku ports:add chisel https:443:8080
+dokku storage:mount dozzle /var/run/docker.sock:/var/run/docker.sock
+
+dokku ports:add dozzle http:80:8080
+dokku ports:add dozzle https:443:8080
+
+# after first deploy
+# copy and paste dozzle/data/users.yml to /var/lib/dokku/data/storage/dozzle-data/users.yml
+dokku config:set dozzle DOZZLE_AUTH_PROVIDER=simple
 ```
 
 ### Deploy
 ```bash
-git remote add dokku-chisel dokku@sjdonado.de:chisel
-git subtree push --prefix chisel dokku-chisel master
+git remote add dokku-dozzle dokku@donado.co:dozzle
+git subtree push --prefix dozzle dokku-dozzle master
 ```
 
 ## OpenVPN server
