@@ -33,6 +33,9 @@ dokku docker-options:add openvpn deploy "--cap-add=NET_ADMIN"
 dokku docker-options:add openvpn deploy "-p 1194:1194/udp -p 8080:8080/tcp"
 ```
 
+export HOST_ADDR=158.247.125.221 HOST_CONF_PORT=8080
+docker run --rm -it --cap-add=NET_ADMIN -p 1194:1194/udp -p 8080:8080/tcp --name openvpn alekslitvinenk/openvpn:v1.12.0 
+
 ### Generate new client config
 ```bash
 dokku run openvpn ./genclient
@@ -41,7 +44,7 @@ dokku run openvpn ./genclient
 
 ### Deploy
 ```bash
-git remote add dokku-openvpn dokku@sjdonado.de:openvpn
+git remote add dokku-openvpn dokku@donado.co:openvpn
 git subtree push --prefix openvpn dokku-openvpn master
 ```
 
@@ -54,31 +57,31 @@ brew install --cask openvpn-connect
 
 ### Setup
 ```bash
-dokku letsencrypt:enable bitwarden
+dokku letsencrypt:enable vaultwarden
 
-dokku postgres:create bitwarden
-dokku postgres:link bitwarden bitwarden
+dokku postgres:create vaultwarden
+dokku postgres:link vaultwarden vaultwarden
 
-dokku storage:ensure-directory bitwarden
-dokku storage:mount bitwarden /var/lib/dokku/data/storage/bitwarden:/data
+dokku storage:ensure-directory vaultwarden
+dokku storage:mount vaultwarden /var/lib/dokku/data/storage/vaultwarden:/data
 
-dokku config:set bitwarden DOKKU_PROXY_PORT_MAP="http:80:80 https:443:80"
-dokku config:set bitwarden \
-  DOMAIN=https://passwords.sjdonado.de \
+dokku config:set vaultwarden DOKKU_PROXY_PORT_MAP="http:80:80 https:443:80"
+dokku config:set vaultwarden \
+  DOMAIN= \
   SIGNUPS_ALLOWED=false \
   ADMIN_TOKEN='$argon2id...' \
-  SMTP_HOST=smtp.sjdonado.de \
-  SMTP_FROM=vaultwarden@sjdonado.de \
+  SMTP_HOST= \
+  SMTP_FROM=vaultwarden@donado.co \
   SMTP_PORT=587 \
   SMTP_SECURITY=starttls \
-  SMTP_USERNAME=apikey \
+  SMTP_USERNAME= \
   SMTP_PASSWORD=
 ```
 
 ### Deploy
 ```bash
-git remote add dokku-bitwarden dokku@sjdonado.de:bitwarden
-git subtree push --prefix bitwarden dokku-bitwarden master
+git remote add dokku-vaultwarden dokku@donado.co:vaultwarden
+git subtree push --prefix vaultwarden dokku-vaultwarden master
 ```
 
 ## Uptime Kuma
@@ -95,7 +98,7 @@ dokku config:set uptime-kuma UPTIME_KUMA_PORT=5000
 
 ### Deploy
 ```bash
-git remote add dokku-uptime-kuma dokku@sjdonado.de:uptime-kuma
+git remote add dokku-uptime-kuma dokku@donado.co:uptime-kuma
 git subtree push --prefix uptime-kuma dokku-uptime-kuma master
 ```
 
@@ -113,7 +116,7 @@ dokku config:set actual DOKKU_PROXY_PORT_MAP="http:80:5006 https:443:5006"
 
 ### Deploy
 ```bash
-git remote add dokku-actual dokku@sjdonado.de:actual
+git remote add dokku-actual dokku@donado.co:actual
 git subtree push --prefix actual dokku-actual master
 ```
 Force udpate: `git subtree split --prefix actual -b split-actual && git push dokku-actual split-actual:master --force && git branch -D split-actual`
@@ -139,45 +142,13 @@ dokku config:set jellyfin DOKKU_PROXY_PORT_MAP="http:80:8096 https:443:8096"
 
 ### Deploy
 ```bash
-git remote add dokku-jellyfin dokku@sjdonado.de:jellyfin
+git remote add dokku-jellyfin dokku@donado.co:jellyfin
 git subtree push --prefix jellyfin dokku-jellyfin master
 ```
 
 ### Upload media
 ```bash
-rsync -avz --progress -e ssh "/path/on/local/computer" sjdonado@sjdonado.de:/var/lib/dokku/data/storage/jellyfin-media
-```
-
-## Lesspass
-
-### Local
-```bash
-docker-compose -f lesspass/docker-compose.yml up
-```
-Default URL: `http://localhost:8000/api`
-
-### Setup
-```bash
-dokku letsencrypt:enable lesspass
-dokku postgres:create lesspass
-dokku postgres:link lesspass lesspass
-
-dokku config:set lesspass DOKKU_PROXY_PORT_MAP="http:80:8000 https:443:8000"
-dokku config:set lesspass \
-  ALLOWED_HOSTS="passwords.sjdonado.de" \
-  DATABASE_ENGINE="django.db.backends.postgresql" \
-  DATABASE_HOST="dokku-postgres-lesspass" \
-  DATABASE_NAME="lesspass" \
-  DATABASE_USER="postgres" \
-  DATABASE_PASSWORD="ENTER_YOUR_PASSWORD" \
-  DATABASE_PORT="5432" \
-  EMAIL_BACKEND="django.core.mail.backends.console.EmailBackend"
-```
-
-### Deploy
-```bash
-git remote add dokku-lesspass dokku@sjdonado.de:lesspass
-git subtree push --prefix lesspass dokku-lesspass master
+rsync -avz --progress -e ssh "/path/on/local/computer" sjdonado@donado.co:/var/lib/dokku/data/storage/jellyfin-media
 ```
 
 ## NGINX transparent proxy
@@ -195,7 +166,7 @@ dokku run proxy-server download-cert
 
 ### Deploy
 ```bash
-git remote add dokku-proxy-server dokku@sjdonado.de:proxy-server
+git remote add dokku-proxy-server dokku@donado.co:proxy-server
 git subtree push --prefix proxy-server dokku-proxy-server master
 ```
 
