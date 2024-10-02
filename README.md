@@ -1,3 +1,27 @@
+## Umami
+
+### Setup
+
+```bash
+dokku apps:create umami
+
+dokku domains:set umami umami.donado.co 
+dokku letsencrypt:enable umami
+
+dokku ports:add umami http:80:3000
+dokku ports:add umami https:443:3000
+
+dokku postgres:create umami
+dokku postgres:link umami umami
+```
+
+### Deploy
+
+```bash
+git remote add dokku-umami dokku@donado.co:umami
+git subtree push --prefix umami dokku-umami master
+```
+
 ## Bit
 
 ### Setup
